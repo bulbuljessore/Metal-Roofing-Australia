@@ -46,6 +46,30 @@
   nav a { position: relative; }
   nav a::after { content: ''; position: absolute; left: 14px; right: 14px; bottom: 5px; height: 1.5px; background: var(--accent); transform: scaleX(0); transform-origin: left; transition: transform .3s cubic-bezier(.16,.84,.34,1); }
   nav a:hover::after { transform: scaleX(1); }
+  [data-burger] { display: none; }
+  @media (max-width: 1040px) {
+    [data-cols] { grid-template-columns: 1fr !important; }
+    [data-sticky] { position: static !important; }
+    [data-nav] { display: none !important; }
+    [data-burger] { display: inline-flex !important; }
+    [data-footer] { grid-template-columns: 1fr 1fr !important; }
+    [data-band] { padding: 52px 32px !important; }
+  }
+  @media (max-width: 780px) {
+    [data-sec] { padding-top: 52px !important; }
+    [data-proc] { grid-template-columns: 1fr !important; gap: 8px !important; }
+    [data-hero] { padding: 0 22px 26px !important; }
+    [data-inpad] { padding: 24px !important; gap: 26px !important; }
+    [data-band] { padding: 40px 24px !important; margin-top: 56px !important; }
+    [data-logo] { height: 46px !important; }
+  }
+  @media (max-width: 560px) {
+    [data-footer] { grid-template-columns: 1fr !important; }
+    [data-form] { grid-template-columns: 1fr !important; }
+    [data-form] > * { grid-column: auto !important; }
+    [data-hero] { padding: 0 18px 22px !important; }
+    [data-inpad] { padding: 18px !important; }
+  }
 </style>
 </helmet>
 
@@ -53,19 +77,43 @@
 
   <header style="position:sticky;top:0;z-index:50;display:flex;align-items:center;justify-content:space-between;gap:24px;padding:10px 16px 10px 22px;margin:14px 0 0;background:rgba(255,255,255,0.86);backdrop-filter:blur(14px);border:1px solid #E6E0D7;border-radius:999px">
     <div style="display:flex;align-items:center;gap:11px">
-      <img src="./img/logo.png" alt="Metal Roofing Australia" style="height:56px;width:auto;display:block">
+      <img data-logo="1" src="./img/logo.png" alt="Metal Roofing Australia" style="height:56px;width:auto;display:block">
     </div>
-    <nav style="display:flex;align-items:center;gap:4px;font-size:14px;font-weight:600">
+     <nav data-nav="1" style="display:flex;align-items:center;gap:4px;font-size:14px;font-weight:600">
       <a href="#services" onClick="{{ navTo }}" style="color:#4A443C;padding:9px 14px;border-radius:999px" style-hover="background:#F1EDE6;color:#17140F">Services</a>
       <a href="#work" onClick="{{ navTo }}" style="color:#4A443C;padding:9px 14px;border-radius:999px" style-hover="background:#F1EDE6;color:#17140F">Our Work</a>
       <a href="#about" onClick="{{ navTo }}" style="color:#4A443C;padding:9px 14px;border-radius:999px" style-hover="background:#F1EDE6;color:#17140F">About</a>
       <a href="#areas" onClick="{{ navTo }}" style="color:#4A443C;padding:9px 14px;border-radius:999px" style-hover="background:#F1EDE6;color:#17140F">Areas</a>
       <a href="#reviews" onClick="{{ navTo }}" style="color:#4A443C;padding:9px 14px;border-radius:999px" style-hover="background:#F1EDE6;color:#17140F">Reviews</a>
     </nav>
+    <button data-burger="1" onClick="{{ toggleMenu }}" aria-label="Menu" style="display:none;align-items:center;justify-content:center;width:44px;height:44px;flex:0 0 44px;border-radius:999px;border:1px solid #E2DCD3;background:#fff;color:#17140F;cursor:pointer;margin-left:auto" style-hover="background:#17140F;color:#fff">
+      <span style="display:flex;flex-direction:column;gap:4px;align-items:center">
+        <span style="display:block;width:17px;height:2px;background:currentColor;border-radius:2px"></span>
+        <span style="display:block;width:17px;height:2px;background:currentColor;border-radius:2px"></span>
+        <span style="display:block;width:17px;height:2px;background:currentColor;border-radius:2px"></span>
+      </span>
+    </button>
     <a href="tel:1300569977" style="display:flex;align-items:center;gap:8px;background:var(--accent);color:#fff;padding:11px 20px;border-radius:999px;font-size:14px;font-weight:700;box-shadow:0 6px 18px rgba(221,79,22,0.32);transition:box-shadow .25s ease, background .25s ease" style-hover="background:#17140F;color:#fff;box-shadow:0 8px 22px rgba(20,17,13,0.3)">
       <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex:0 0 auto"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.8 19.8 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.12 4.18A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.8 12.8 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.8 12.8 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>1300 569 977
     </a>
   </header>
+
+  <sc-if value="{{ menuOpen }}" hint-placeholder-val="{{ false }}">
+    <div onClick="{{ closeMenu }}" style="position:fixed;inset:0;z-index:120;background:rgba(20,17,13,0.5);backdrop-filter:blur(4px);display:flex;align-items:flex-start;justify-content:flex-end;padding:18px">
+      <div onClick="{{ stopClose }}" style="width:100%;max-width:300px;background:#fff;border-radius:22px;padding:18px;display:flex;flex-direction:column;gap:4px">
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;padding:2px 6px 10px">
+          <div style="font-size:13px;font-weight:700;letter-spacing:0.12em;color:#8A8177">MENU</div>
+          <button onClick="{{ closeMenu }}" aria-label="Close menu" style="width:34px;height:34px;border-radius:999px;border:none;background:#F1EDE6;color:#17140F;font-size:16px;cursor:pointer" style-hover="background:#17140F;color:#fff">✕</button>
+        </div>
+        <a href="#services" onClick="{{ navTo }}" style="font-size:16px;font-weight:600;color:#17140F;padding:13px 12px;border-radius:12px" style-hover="background:#F6F3EF">Services</a>
+        <a href="#work" onClick="{{ navTo }}" style="font-size:16px;font-weight:600;color:#17140F;padding:13px 12px;border-radius:12px" style-hover="background:#F6F3EF">Our Work</a>
+        <a href="#about" onClick="{{ navTo }}" style="font-size:16px;font-weight:600;color:#17140F;padding:13px 12px;border-radius:12px" style-hover="background:#F6F3EF">About</a>
+        <a href="#areas" onClick="{{ navTo }}" style="font-size:16px;font-weight:600;color:#17140F;padding:13px 12px;border-radius:12px" style-hover="background:#F6F3EF">Areas</a>
+        <a href="#reviews" onClick="{{ navTo }}" style="font-size:16px;font-weight:600;color:#17140F;padding:13px 12px;border-radius:12px" style-hover="background:#F6F3EF">Reviews</a>
+        <a href="#quote" onClick="{{ openForm }}" style="margin-top:8px;background:var(--accent);color:#fff;text-align:center;padding:14px;border-radius:999px;font-size:15px;font-weight:700" style-hover="background:#17140F">Get a free quote</a>
+      </div>
+    </div>
+  </sc-if>
 
   <section style="position:relative;margin-top:16px;border-radius:28px;overflow:hidden;background:#1B1713;min-height:660px;display:flex;flex-direction:column;justify-content:flex-end">
     <div style="position:absolute;inset:0">
@@ -77,7 +125,7 @@
     <div style="position:absolute;z-index:2;inset:0;background-image:url('./img/hero-fg.png');background-size:cover;background-position:center;background-repeat:no-repeat;pointer-events:none"></div>
     <div style="position:absolute;z-index:3;inset:0;background:linear-gradient(180deg,rgba(20,17,13,0.1) 0%,rgba(20,17,13,0) 26%,rgba(20,17,13,0.86) 88%);pointer-events:none"></div>
 
-    <div style="position:relative;z-index:4;padding:0 44px 44px;display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:32px;pointer-events:none">
+    <div data-hero style="position:relative;z-index:4;padding:0 44px 44px;display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:32px;pointer-events:none">
       <div style="max-width:620px">
         <h1 style="margin:0;font-size:clamp(36px,4.6vw,60px);line-height:1.02;letter-spacing:-0.035em;font-weight:700;color:#fff;text-wrap:balance">Built on Quality,<br>Built to Last</h1>
         <p style="margin:20px 0 0;max-width:520px;font-size:16.5px;line-height:1.6;color:rgba(255,255,255,0.82)">Licensed roof plumbers doing Colorbond re-roofs, new homes, guttering and storm repairs. We quote what the job actually needs, then we do that job.</p>
@@ -114,12 +162,12 @@
     </div>
   </section>
 
-  <section id="work" style="padding:64px 8px 0">
+  <section id="work" data-sec="1" style="padding:64px 8px 0">
     <div style="display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:24px;margin-bottom:28px">
       <h2 data-rise="1" style="margin:0;font-size:clamp(28px,3.4vw,42px);line-height:1.06;letter-spacing:-0.035em;font-weight:700">Your home deserves<br><span data-fill="1" style="color:#A69C90;background-image:linear-gradient(to right, var(--accent) 0%, var(--accent) var(--p,0%), #A69C90 var(--p,0%), #A69C90 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent">steel that outlasts the mortgage</span></h2>
       <p style="margin:0;max-width:390px;font-size:15px;line-height:1.6;color:#6B6359">We roof-plumb to Australian standards with Colorbond and Lysaght steel, the same gear we'd put on our own houses, and back the workmanship in writing.</p>
     </div>
-    <div style="display:grid;grid-template-columns:1fr 1.7fr 1fr;gap:16px;align-items:stretch">
+    <div data-cols style="display:grid;grid-template-columns:1fr 1.7fr 1fr;gap:16px;align-items:stretch">
       <div style="background:#fff;border-radius:22px;padding:14px;display:flex;flex-direction:column;gap:14px">
         <div data-zoom="1" style="height:190px;border-radius:14px;overflow:hidden"><image-slot id="mra-w1" src="./img/inspection-ladder.png" shape="rect" placeholder="Finished Colorbond roof"></image-slot></div>
         <div style="padding:0 8px 8px">
@@ -149,7 +197,7 @@
     </div>
   </section>
 
-  <section id="services" style="padding:80px 8px 0">
+  <section id="services" data-sec="1" style="padding:80px 8px 0">
     <div style="display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:24px;margin-bottom:28px">
       <div>
         <h2 data-rise="1" style="margin:0;font-size:clamp(28px,3.4vw,42px);line-height:1.06;letter-spacing:-0.035em;font-weight:700">What we do</h2>
@@ -212,11 +260,11 @@
     </div>
   </section>
 
-  <section style="margin:80px 8px 0;background:linear-gradient(115deg,#FFE3D2 0%,#FDF1E9 26%,#FFFFFF 52%,#F0F4F8 78%,#DDE9F2 100%);border-radius:26px;padding:78px 60px;text-align:center">
+  <section data-band style="margin:80px 8px 0;background:linear-gradient(115deg,#FFE3D2 0%,#FDF1E9 26%,#FFFFFF 52%,#F0F4F8 78%,#DDE9F2 100%);border-radius:26px;padding:78px 60px;text-align:center">
     <p data-rise="1" style="margin:0 auto;max-width:880px;font-size:clamp(22px,2.6vw,34px);line-height:1.32;letter-spacing:-0.025em;font-weight:600;color:#17140F;text-wrap:pretty">When a summer storm comes through the western suburbs, your roof is the only thing doing any work. <span data-fill="1" style="color:#8A8177;background-image:linear-gradient(to right, var(--accent) 0%, var(--accent) var(--p,0%), #8A8177 var(--p,0%), #8A8177 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent">Ten years and five thousand projects later, ours still don't leak.</span></p>
   </section>
 
-  <section id="about" style="padding:80px 8px 0;display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center">
+  <section id="about" data-cols data-sec style="padding:80px 8px 0;display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center">
     <div>
       <div style="font-size:11.5px;font-weight:700;letter-spacing:0.16em;color:var(--accent)">ABOUT US</div>
       <h2 style="margin:14px 0 0;font-size:clamp(28px,3.4vw,42px);line-height:1.06;letter-spacing:-0.035em;font-weight:700">Proudly building<br><span data-fill="1" style="color:#A69C90;background-image:linear-gradient(to right, var(--accent) 0%, var(--accent) var(--p,0%), #A69C90 var(--p,0%), #A69C90 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent">Sydney's roofs since 2015</span></h2>
@@ -228,7 +276,7 @@
       </div>
       <a href="#quote" onClick="{{ openForm }}" data-btn="1" style="display:inline-flex;margin-top:28px;background:#17140F;color:#fff;padding:14px 24px;border-radius:999px;font-size:14.5px;font-weight:700" style-hover="background:var(--accent)">Work with our team</a>
     </div>
-    <div style="display:grid;grid-template-columns:1fr 1.05fr;gap:14px;align-items:stretch">
+    <div data-cols style="display:grid;grid-template-columns:1fr 1.05fr;gap:14px;align-items:stretch">
       <div data-zoom="1" style="border-radius:22px;overflow:hidden;min-height:420px"><image-slot id="mra-about" src="./img/team.png" shape="rect" placeholder="Team on site"></image-slot></div>
       <div style="display:flex;flex-direction:column;gap:10px">
         <div style="background:#fff;border-radius:18px;overflow:hidden">
@@ -266,16 +314,16 @@
     </div>
   </section>
 
-  <section style="padding:80px 8px 0">
-    <div style="display:grid;grid-template-columns:0.85fr 2.15fr;gap:40px;align-items:start">
-      <div style="position:sticky;top:104px">
+  <section data-sec="1" style="padding:80px 8px 0">
+    <div data-cols style="display:grid;grid-template-columns:0.85fr 2.15fr;gap:40px;align-items:start">
+      <div data-sticky style="position:sticky;top:104px">
         <h2 data-rise="1" style="margin:0;font-size:clamp(26px,3.2vw,38px);line-height:1.06;letter-spacing:-0.035em;font-weight:700">How a job<br><span data-fill="1" style="color:#A69C90;background-image:linear-gradient(to right, var(--accent) 0%, var(--accent) var(--p,0%), #A69C90 var(--p,0%), #A69C90 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent">runs with us</span></h2>
         <p style="margin:16px 0 0;font-size:14.5px;line-height:1.6;color:#6B6359;max-width:300px">Four steps. You will know the price before we start and you will not have to chase us for an update.</p>
         <a href="#quote" onClick="{{ openForm }}" data-btn="1" style="display:inline-flex;margin-top:22px;background:#17140F;color:#fff;padding:13px 22px;border-radius:999px;font-size:14px;font-weight:700" style-hover="background:var(--accent)">Start with step one</a>
       </div>
       <div style="background:#fff;border-radius:24px;padding:10px 26px 26px">
         
-      <div data-rise="1" style="display:grid;grid-template-columns:76px 1fr 210px;gap:24px;align-items:start;padding:26px 4px;border-top:1px solid #E2DCD3">
+      <div data-rise="1" data-proc style="display:grid;grid-template-columns:76px 1fr 210px;gap:24px;align-items:start;padding:26px 4px;border-top:1px solid #E2DCD3">
         <div style="font-size:34px;font-weight:700;letter-spacing:-0.04em;color:var(--accent);line-height:1">01</div>
         <div style="min-width:0">
           <div style="font-size:19px;font-weight:700;letter-spacing:-0.02em">We get on the roof</div>
@@ -284,7 +332,7 @@
         <div style="font-size:13px;line-height:1.6;color:#8A8177;font-weight:600">Usually within 48 hours</div>
       </div>
         
-      <div data-rise="1" style="display:grid;grid-template-columns:76px 1fr 210px;gap:24px;align-items:start;padding:26px 4px;border-top:1px solid #E2DCD3">
+      <div data-rise="1" data-proc style="display:grid;grid-template-columns:76px 1fr 210px;gap:24px;align-items:start;padding:26px 4px;border-top:1px solid #E2DCD3">
         <div style="font-size:34px;font-weight:700;letter-spacing:-0.04em;color:var(--accent);line-height:1">02</div>
         <div style="min-width:0">
           <div style="font-size:19px;font-weight:700;letter-spacing:-0.02em">You get a fixed written quote</div>
@@ -293,7 +341,7 @@
         <div style="font-size:13px;line-height:1.6;color:#8A8177;font-weight:600">Emailed within 1-2 days</div>
       </div>
         
-      <div data-rise="1" style="display:grid;grid-template-columns:76px 1fr 210px;gap:24px;align-items:start;padding:26px 4px;border-top:1px solid #E2DCD3">
+      <div data-rise="1" data-proc style="display:grid;grid-template-columns:76px 1fr 210px;gap:24px;align-items:start;padding:26px 4px;border-top:1px solid #E2DCD3">
         <div style="font-size:34px;font-weight:700;letter-spacing:-0.04em;color:var(--accent);line-height:1">03</div>
         <div style="min-width:0">
           <div style="font-size:19px;font-weight:700;letter-spacing:-0.02em">We do the work</div>
@@ -302,7 +350,7 @@
         <div style="font-size:13px;line-height:1.6;color:#8A8177;font-weight:600">Most re-roofs: 3-5 days</div>
       </div>
         
-      <div data-rise="1" style="display:grid;grid-template-columns:76px 1fr 210px;gap:24px;align-items:start;padding:26px 4px;border-top:1px solid #E2DCD3">
+      <div data-rise="1" data-proc style="display:grid;grid-template-columns:76px 1fr 210px;gap:24px;align-items:start;padding:26px 4px;border-top:1px solid #E2DCD3">
         <div style="font-size:34px;font-weight:700;letter-spacing:-0.04em;color:var(--accent);line-height:1">04</div>
         <div style="min-width:0">
           <div style="font-size:19px;font-weight:700;letter-spacing:-0.02em">We walk it with you</div>
@@ -314,7 +362,7 @@
     </div>
   </section>
 
-  <section id="reviews" style="padding:80px 8px 0">
+  <section id="reviews" data-sec="1" style="padding:80px 8px 0">
     <div style="display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:20px;margin-bottom:28px">
       <h2 data-rise="1" style="margin:0;font-size:clamp(28px,3.4vw,42px);line-height:1.06;letter-spacing:-0.035em;font-weight:700">5.0 stars,<br><span data-fill="1" style="color:#A69C90;background-image:linear-gradient(to right, var(--accent) 0%, var(--accent) var(--p,0%), #A69C90 var(--p,0%), #A69C90 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent">89 reviews and counting</span></h2>
       <div style="display:flex;align-items:center;gap:10px;background:#fff;border-radius:999px;padding:12px 20px">
@@ -356,8 +404,8 @@
     </div>
   </section>
 
-  <section id="areas" style="padding:80px 8px 0">
-    <div style="background:#fff;border-radius:26px;padding:44px;display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center">
+  <section id="areas" data-sec="1" style="padding:80px 8px 0">
+    <div data-cols data-inpad style="background:#fff;border-radius:26px;padding:44px;display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center">
       <div>
         <div style="font-size:11.5px;font-weight:700;letter-spacing:0.16em;color:var(--accent)">SERVICE AREA</div>
         <h2 style="margin:14px 0 0;font-size:clamp(26px,3vw,36px);line-height:1.08;letter-spacing:-0.03em;font-weight:700">Sydney and wider NSW</h2>
@@ -374,15 +422,15 @@
     </div>
   </section>
 
-  <section id="quote" style="padding:80px 8px 0">
+  <section id="quote" data-sec="1" style="padding:80px 8px 0">
     <div style="position:relative;border-radius:26px;overflow:hidden;background:#1B1713;min-height:600px">
       <div style="position:absolute;inset:0"><image-slot id="mra-cta" src="./img/house-grey.png" shape="rect" placeholder="Roofline photo for the contact section"></image-slot></div>
       <div style="position:absolute;inset:0;background:linear-gradient(100deg,rgba(20,17,13,0.94) 0%,rgba(20,17,13,0.8) 46%,rgba(20,17,13,0.35) 100%);pointer-events:none"></div>
-      <div style="position:relative;display:grid;grid-template-columns:1.05fr 0.95fr;gap:44px;padding:44px">
+      <div data-cols data-inpad style="position:relative;display:grid;grid-template-columns:1.05fr 0.95fr;gap:44px;padding:44px">
         <div style="background:#fff;border-radius:22px;padding:32px">
           <h2 style="margin:0;font-size:26px;line-height:1.15;letter-spacing:-0.03em;font-weight:700">Book a free roof inspection</h2>
           <p style="margin:8px 0 24px;font-size:14.5px;color:#6B6359">Tell us what's going on with the roof. We'll get back to you inside a business day.</p>
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+          <div data-form style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
             <input placeholder="First name" style="grid-column:span 1;border:1px solid #E2DCD3;border-radius:12px;padding:14px 16px;font-size:14px;outline:none;background:#FBFAF8" style-focus="border-color:#17140F">
             <input placeholder="Last name" style="border:1px solid #E2DCD3;border-radius:12px;padding:14px 16px;font-size:14px;outline:none;background:#FBFAF8" style-focus="border-color:#17140F">
             <input placeholder="Email address" style="border:1px solid #E2DCD3;border-radius:12px;padding:14px 16px;font-size:14px;outline:none;background:#FBFAF8" style-focus="border-color:#17140F">
@@ -434,7 +482,7 @@
   </section>
 
   <footer style="padding:70px 8px 0">
-    <div style="display:grid;grid-template-columns:1.6fr 1fr 1fr 1fr;gap:32px;padding-bottom:40px;border-bottom:1px solid #E2DCD3">
+    <div data-footer style="display:grid;grid-template-columns:1.6fr 1fr 1fr 1fr;gap:32px;padding-bottom:40px;border-bottom:1px solid #E2DCD3">
       <div>
         <div style="display:flex;align-items:center;gap:11px">
           <img src="./img/logo.png" alt="Metal Roofing Australia" style="height:54px;width:auto;display:block">
@@ -492,7 +540,7 @@
         </div>
         <button onClick="{{ closeForm }}" style="width:34px;height:34px;flex:0 0 34px;border-radius:50%;border:none;background:#F1EDE6;color:#17140F;font-size:16px;cursor:pointer" style-hover="background:#17140F;color:#fff">✕</button>
       </div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:11px;margin-top:22px">
+      <div data-form style="display:grid;grid-template-columns:1fr 1fr;gap:11px;margin-top:22px">
         <input placeholder="Your name" style="border:1px solid #E2DCD3;border-radius:12px;padding:13px 15px;font-size:14px;outline:none;background:#FBFAF8" style-focus="border-color:#17140F">
         <input placeholder="Phone" style="border:1px solid #E2DCD3;border-radius:12px;padding:13px 15px;font-size:14px;outline:none;background:#FBFAF8" style-focus="border-color:#17140F">
         <input placeholder="Email address" style="grid-column:span 2;border:1px solid #E2DCD3;border-radius:12px;padding:13px 15px;font-size:14px;outline:none;background:#FBFAF8" style-focus="border-color:#17140F">
@@ -523,7 +571,7 @@
 </x-dc>
 <script type="text/x-dc" data-dc-script data-props="{&quot;accentColor&quot;:{&quot;editor&quot;:&quot;color&quot;,&quot;default&quot;:&quot;#DD4F16&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;options&quot;:[&quot;#DD4F16&quot;,&quot;#B4361B&quot;,&quot;#1E5C8C&quot;,&quot;#2F6E4E&quot;],&quot;section&quot;:&quot;Brand&quot;},&quot;showWordmark&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Layout&quot;},&quot;showCallButton&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Layout&quot;}}">
 class Component extends DCLogic {
-  state = { open: 'mission', formOpen: false };
+  state = { open: 'mission', formOpen: false, menuOpen: false };
   componentDidMount() {
     this.applyAccent();
     this.startFillLoop();
@@ -643,10 +691,14 @@ class Component extends DCLogic {
         const h = a && a.getAttribute && a.getAttribute('href');
         if (!h || h.charAt(0) !== '#') return;
         e.preventDefault();
+        if (this.state.menuOpen) this.setState({ menuOpen: false });
         this.goTo(h);
       },
+      menuOpen: this.state.menuOpen,
+      toggleMenu: () => this.setState(s => ({ menuOpen: !s.menuOpen })),
+      closeMenu: () => this.setState({ menuOpen: false }),
       formOpen: this.state.formOpen,
-      openForm: (e) => { if (e && e.preventDefault) e.preventDefault(); this.setState({ formOpen: true }); },
+      openForm: (e) => { if (e && e.preventDefault) e.preventDefault(); this.setState({ formOpen: true, menuOpen: false }); },
       closeForm: () => this.setState({ formOpen: false }),
       stopClose: (e) => { if (e && e.stopPropagation) e.stopPropagation(); },
       scrollLeft: () => this.nudge(-1),
