@@ -57,6 +57,11 @@
   }
   @media (max-width: 780px) {
     [data-sec] { padding-top: 52px !important; }
+    [data-hero-stats] { display: none !important; }
+    [data-mob-stats] { display: flex !important; }
+    [data-hero] { justify-content: flex-start !important; align-items: flex-start !important; text-align: left !important; }
+    [data-map] { min-height: 240px !important; width: 100% !important; }
+    [data-map] image-slot, [data-map] img { width: 100% !important; height: 100% !important; object-fit: cover !important; display: block !important; }
     [data-proc] { grid-template-columns: 1fr !important; gap: 8px !important; }
     [data-hero] { padding: 0 22px 26px !important; }
     [data-inpad] { padding: 24px !important; gap: 26px !important; }
@@ -134,7 +139,7 @@
           <a href="tel:1300569977" style="background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.3);backdrop-filter:blur(8px);color:#fff;padding:15px 26px;border-radius:999px;font-size:15px;font-weight:700;display:inline-flex;align-items:center;gap:9px" style-hover="background:#fff;color:#17140F"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex:0 0 auto"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.8 19.8 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.12 4.18A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.8 12.8 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.8 12.8 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>Call 1300 569 977</a>
         </div>
       </div>
-      <div style="display:flex;gap:10px;flex-wrap:wrap;pointer-events:auto">
+      <div data-hero-stats="1" style="display:flex;gap:10px;flex-wrap:wrap;pointer-events:auto">
         <div style="background:rgba(255,255,255,0.95);border-radius:18px;padding:16px 20px;min-width:132px">
           <div data-count="5" data-dec="1" style="font-size:30px;font-weight:800;letter-spacing:-0.03em;color:#17140F;font-variant-numeric:tabular-nums">5.0</div>
           <div style="font-size:12px;font-weight:600;color:#6B6359;margin-top:2px">89 Google reviews</div>
@@ -149,6 +154,21 @@
         </div>
       </div>
     </div>
+  </section>
+
+  <section data-mob-stats="1" style="display:none;flex-wrap:wrap;gap:10px;padding:16px 8px 0">
+      <div style="flex:1 1 140px;background:#fff;border-radius:18px;padding:16px 18px">
+        <div data-count="5" data-dec="1" style="font-size:28px;font-weight:800;letter-spacing:-0.03em;color:#17140F;font-variant-numeric:tabular-nums">5.0</div>
+        <div style="font-size:12px;font-weight:600;color:#6B6359;margin-top:2px">89 Google reviews</div>
+      </div>
+      <div style="flex:1 1 140px;background:#fff;border-radius:18px;padding:16px 18px">
+        <div data-count="5000" data-suffix="+" data-comma="1" style="font-size:28px;font-weight:800;letter-spacing:-0.03em;color:#17140F;font-variant-numeric:tabular-nums">5,000+</div>
+        <div style="font-size:12px;font-weight:600;color:#6B6359;margin-top:2px">Projects across NSW</div>
+      </div>
+      <div style="flex:1 1 140px;background:#fff;border-radius:18px;padding:16px 18px">
+        <div data-count="10" data-suffix="+" style="font-size:28px;font-weight:800;letter-spacing:-0.03em;color:#17140F;font-variant-numeric:tabular-nums">10+</div>
+        <div style="font-size:12px;font-weight:600;color:#6B6359;margin-top:2px">Years on the tools</div>
+      </div>
   </section>
 
   <section style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:20px;padding:26px 8px 6px">
@@ -418,7 +438,7 @@
           <div style="background:#F6F3EF;border-radius:999px;padding:10px 18px;font-size:14px;font-weight:600">Coffs Harbour</div>
         </div>
       </div>
-      <div data-zoom="1" style="border-radius:20px;overflow:hidden;min-height:300px"><image-slot id="mra-map" src="./img/nsw-map.png" shape="rect" placeholder="Map or aerial of service area"></image-slot></div>
+      <div data-zoom="1" data-map="1" style="border-radius:20px;overflow:hidden;min-height:300px;align-self:stretch"><image-slot id="mra-map" src="./img/nsw-map.png" shape="rect" placeholder="Map or aerial of service area"></image-slot></div>
     </div>
   </section>
 
